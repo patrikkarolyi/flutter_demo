@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:popular_movies/widgets/MovieDetailsWidget.dart';
 
-import 'DetailsPage.dart';
 import 'FavoritePage.dart';
 
 class ListPage extends StatefulWidget {
@@ -14,20 +14,6 @@ class ListPage extends StatefulWidget {
 
 class _ListPageState extends State<ListPage> {
   bool _sortPopupIsVisible = false;
-  List<MaterialColor> gridColors = [
-    Colors.red,
-    Colors.deepPurple,
-    Colors.green,
-    Colors.deepOrange,
-    Colors.red,
-    Colors.deepPurple,
-    Colors.green,
-    Colors.deepOrange,
-    Colors.red,
-    Colors.deepPurple,
-    Colors.green,
-    Colors.deepOrange
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -36,45 +22,30 @@ class _ListPageState extends State<ListPage> {
         title: Text("App name"),
         actions: [
           IconButton(
+            icon: Icon(Icons.star),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => FavoritePage()),
               );
             },
-            icon: Icon(Icons.star),
           ),
           IconButton(
+            icon: Icon(Icons.sort),
             onPressed: () {
               _openSortPopup(context);
               this._sortPopupIsVisible = true;
             },
-            icon: Icon(Icons.sort),
           ),
         ],
       ),
       body: GridView.builder(
+          itemCount: 100,
+          physics: BouncingScrollPhysics(),
           gridDelegate:
               SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-          itemCount: 8,
           itemBuilder: (BuildContext context, int x) {
-            return InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DetailsPage()),
-                );
-              },
-              child: Container(
-                margin: EdgeInsets.all(10),
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: gridColors[x],
-                ),
-              ),
-            );
+            return MovieDetailsWidget(index: x);
           }),
     );
   }
