@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class DetailsPage extends StatefulWidget {
+  final int id;
+
+  const DetailsPage({Key key, this.id}) : super(key: key);
+
   @override
   _DetailsPageState createState() => _DetailsPageState();
 }

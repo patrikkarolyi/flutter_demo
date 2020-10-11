@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:popular_movies/pages/DetailsPage.dart';
 
 class MovieDetailsWidget extends StatelessWidget {
-  final int index;
 
-  const MovieDetailsWidget({Key key, this.index}) : super(key: key);
+  final int id;
+  final String title;
+  final int rating;
+  final String imageUrl;
+
+  const MovieDetailsWidget({Key key, this.id, this.title, this.rating, this.imageUrl}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +18,7 @@ class MovieDetailsWidget extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => DetailsPage()),
+          MaterialPageRoute(builder: (context) => DetailsPage(id: id)),
         );
       },
       child: Card(
@@ -25,13 +29,13 @@ class MovieDetailsWidget extends StatelessWidget {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.all(10),
-              child: Text("The Last Samurai"),
+              child: Text(title),
             ),
             Expanded(
               child: Row(
                 children: [
                   Icon(Icons.star),
-                  Expanded(child: Text("$index")),
+                  Expanded(child: Text(rating.toString())),
                   Icon(Icons.arrow_forward_ios),
                 ],
               ),
@@ -39,7 +43,7 @@ class MovieDetailsWidget extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(4.0),
               child: CachedNetworkImage(
-                imageUrl: "https://loremflickr.com/640/360",
+                imageUrl: imageUrl,
                 placeholder: (context, url) => CircularProgressIndicator(),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),

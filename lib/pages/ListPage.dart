@@ -44,8 +44,13 @@ class _ListPageState extends State<ListPage> {
           physics: BouncingScrollPhysics(),
           gridDelegate:
               SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-          itemBuilder: (BuildContext context, int x) {
-            return MovieDetailsWidget(index: x);
+          itemBuilder: (BuildContext context, int index) {
+            return MovieDetailsWidget(
+              id: index,
+              rating: 1,
+              title: "The Last Samurai",
+              imageUrl: "https://loremflickr.com/640/360",
+            );
           }),
     );
   }
