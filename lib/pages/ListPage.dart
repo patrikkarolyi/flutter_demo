@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:popular_movies/models/Movie.dart';
+import 'package:popular_movies/models/Response.dart';
 import 'package:popular_movies/network/remote.dart';
 import 'package:popular_movies/widgets/MovieDetailsWidget.dart';
 
@@ -17,12 +18,12 @@ class ListPage extends StatefulWidget {
 class _ListPageState extends State<ListPage> {
   bool _sortPopupIsVisible = false;
 
-  Future<Movie> movie;
+  Future<Response> response;
 
   @override
   void initState() {
     super.initState();
-    movie = Remote.fetchMovies();
+    response = Remote.fetchMovies();
   }
 
   @override
@@ -49,21 +50,23 @@ class _ListPageState extends State<ListPage> {
           ),
         ],
       ),
-      body: FutureBuilder<Movie>(
-          future: movie,
+      body: FutureBuilder<Response>(
+          future: response,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return GridView.builder(
-                  itemCount: 100,
+                  itemCount: snapshot.data.results.length,
                   physics: BouncingScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2),
                   itemBuilder: (BuildContext context, int index) {
+                    Movie movie = snapshot.data.results[index];
+
                     return MovieDetailsWidget(
-                      id: index,
-                      rating: snapshot.data.id,
-                      title: snapshot.data.title,
-                      imageUrl: "https://loremflickr.com/640/360",
+                      id:  movie.id,
+                      rating: movie.vote_average,
+                      title: movie.title,
+                      imageUrl: Remote.image_url + movie.poster_path,
                     );
                   });
             } else

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:popular_movies/models/Response.dart';
 
 class Remote{
 
@@ -8,13 +9,14 @@ class Remote{
   static const url = "https://api.themoviedb.org/3/movie/popular";
   static const language = "&language=en-US";
   static const page = "&page=1";
+  static const image_url= "https://image.tmdb.org/t/p/w185/";
 
 
-  static Future<Map<String, dynamic>> fetchMovies() async {
+  static Future<Response> fetchMovies() async {
     final response = await http.get('$url$API_KEY$language$page');
 
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      return Response.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load album');
     }

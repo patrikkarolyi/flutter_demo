@@ -5,9 +5,9 @@ import 'package:popular_movies/pages/DetailsPage.dart';
 
 class MovieDetailsWidget extends StatelessWidget {
 
-  final int id;
+  final num id;
   final String title;
-  final int rating;
+  final num rating;
   final String imageUrl;
 
   const MovieDetailsWidget({Key key, this.id, this.title, this.rating, this.imageUrl}) : super(key: key);
