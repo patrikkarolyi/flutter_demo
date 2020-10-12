@@ -14,21 +14,25 @@ class Movie {
   final String overview;
   final String release_date;
 
-  Movie(
-      {this.popularity,
-      this.vote_count,
-      this.isVideo,
-      this.poster_path,
-      this.id,
-      this.isAdult,
-      this.backdrop_path,
-      this.original_language,
-      this.original_title,
-      this.genre_ids,
-      this.title,
-      this.vote_average,
-      this.overview,
-      this.release_date});
+  final num runtime;
+
+  Movie({
+    this.popularity,
+    this.vote_count,
+    this.isVideo,
+    this.poster_path,
+    this.id,
+    this.isAdult,
+    this.backdrop_path,
+    this.original_language,
+    this.original_title,
+    this.genre_ids,
+    this.title,
+    this.vote_average,
+    this.overview,
+    this.release_date,
+    this.runtime,
+  });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
     return Movie(
@@ -46,6 +50,24 @@ class Movie {
       vote_average: json['vote_average'],
       overview: json['overview'],
       release_date: json['release_date'],
+      runtime: json['runtime'],
     );
+  }
+
+  void printMovie() {
+    print("-------------------");
+    print('${this.popularity}');
+    print('${this.vote_count}');
+    print('${this.isVideo}');
+    print('${this.poster_path}');
+    print('${this.isAdult}');
+    print('${this.backdrop_path}');
+    print('${this.original_language}');
+    print('${this.original_title}');
+    print('${this.genre_ids}');
+    print('${this.title}');
+    print('${this.vote_average}');
+    print('${this.overview}');
+    print('${this.release_date}');
   }
 }
