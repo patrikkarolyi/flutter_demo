@@ -29,54 +29,20 @@ class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("App name"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.star),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => FavoritePage()),
-              );
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.sort),
-            onPressed: () {
-              _openSortPopup(context);
-              this._sortPopupIsVisible = true;
-            },
-          ),
-        ],
-      ),
+      appBar: _getMoviesAppBar(),
       body: FutureBuilder<Response>(
           future: response,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return GridView.builder(
-                  itemCount: snapshot.data.results.length,
-                  physics: BouncingScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
-                  itemBuilder: (BuildContext context, int index) {
-                    Movie movie = snapshot.data.results[index];
-
-                    return MovieDetailsWidget(
-                      id:  movie.id,
-                      rating: movie.vote_average,
-                      title: movie.title,
-                      imageUrl: Remote.image_url + movie.poster_path,
-                    );
-                  });
-            } else
-              return Text("No content.");
+            return snapshot.hasData
+                ? _getMoviesView(snapshot.data.results)
+                : _getEmptyMoviesView();
           }),
     );
   }
 
   //Show sort popup
   void _openSortPopup(BuildContext context) {
+    this._sortPopupIsVisible = true;
     Widget okButton = FlatButton(
       child: Text("OK"),
       onPressed: () {
@@ -98,5 +64,51 @@ class _ListPageState extends State<ListPage> {
             elevation: 5,
           );
         });
+  }
+
+  GridView _getMoviesView(List<Movie> movies) {
+    return GridView.builder(
+        itemCount: movies.length,
+        physics: BouncingScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2),
+        itemBuilder: (BuildContext context, int index) {
+          Movie movie = movies[index];
+          return MovieDetailsWidget(
+            id: movie.id,
+            rating: movie.vote_average,
+            title: movie.title,
+            imageUrl: Remote.image_url + movie.poster_path,
+          );
+        });
+  }
+
+  Center _getEmptyMoviesView() {
+    return Center(
+      child: Text("No content."),
+    );
+  }
+
+  AppBar _getMoviesAppBar() {
+    return AppBar(
+      title: Text("App name"),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.star),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FavoritePage()),
+            );
+          },
+        ),
+        IconButton(
+          icon: Icon(Icons.sort),
+          onPressed: () {
+            _openSortPopup(context);
+          },
+        ),
+      ],
+    );
   }
 }
