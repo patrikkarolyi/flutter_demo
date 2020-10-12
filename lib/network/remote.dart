@@ -1,17 +1,20 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:popular_movies/models/Movie.dart';
 
 class Remote{
 
-  static const API_KEY = "8d61230b01928fe55a53a48a41dc839b";
+  static const API_KEY = "?api_key=8d61230b01928fe55a53a48a41dc839b";
+  static const url = "https://api.themoviedb.org/3/movie/popular";
+  static const language = "&language=en-US";
+  static const page = "&page=1";
 
-  static Future<Movie> fetchMovies() async {
-    final response = await http.get('https://jsonplaceholder.typicode.com/albums/1');
+
+  static Future<Map<String, dynamic>> fetchMovies() async {
+    final response = await http.get('$url$API_KEY$language$page');
 
     if (response.statusCode == 200) {
-      return Movie.fromJson(jsonDecode(response.body));
+      return jsonDecode(response.body);
     } else {
       throw Exception('Failed to load album');
     }
