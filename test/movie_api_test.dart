@@ -4,7 +4,7 @@ import 'package:popular_movies/network/remote.dart';
 void main() {
   group("Movie API", () {
     test("the api request gives back a response", () async {
-      final response = await Remote.fetchMovies();
+      final response = await Remote.fetchPopularMovies();
       expect(response, isNotNull);
 
       print('page: ${response.page}');
@@ -14,13 +14,13 @@ void main() {
     });
 
     test("the response has results more than 0", () async {
-      final response = await Remote.fetchMovies();
+      final response = await Remote.fetchPopularMovies();
       final movies = response.results;
       expect(movies.length, greaterThan(0));
     });
 
     test("the results are structured as the Movie data class", () async {
-      final response = await Remote.fetchMovies();
+      final response = await Remote.fetchPopularMovies();
       final movies = response.results;
       bool thereIsNullValue = false;
 
@@ -42,22 +42,15 @@ void main() {
 
       expect(thereIsNullValue, false);
 
-      movies.forEach((movie) {
-        print("-------------------");
-        print('${movie.popularity}');
-        print('${movie.vote_count}');
-        print('${movie.isVideo}');
-        print('${movie.poster_path}');
-        print('${movie.isAdult}');
-        print('${movie.backdrop_path}');
-        print('${movie.original_language}');
-        print('${movie.original_title}');
-        print('${movie.genre_ids}');
-        print('${movie.title}');
-        print('${movie.vote_average}');
-        print('${movie.overview}');
-        print('${movie.release_date}');
-      });
+      movies.forEach((movie) {movie.printMovie();});
     });
+
+    test("movie request gives back a movie", () async {
+      final movie = await Remote.fetchMovie(100);
+      expect(movie, isNotNull);
+
+      movie.printMovie();
+    });
+
   });
 }
