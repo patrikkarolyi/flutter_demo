@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:popular_movies/models/Movie.dart';
-import 'package:popular_movies/models/Response.dart';
+import 'package:popular_movies/models/MovieModel.dart';
+import 'package:popular_movies/models/data/Movie.dart';
 import 'package:popular_movies/network/remote.dart';
 import 'package:popular_movies/widgets/MovieDetailsWidget.dart';
+import 'package:provider/provider.dart';
 
 import 'FavoritePage.dart';
 
@@ -16,37 +17,29 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
-  bool _sortPopupIsVisible = false;
-
-  Future<Response> response;
-
   @override
   void initState() {
     super.initState();
-    response = Remote.fetchTopRatedMovies();
+    Provider.of<MovieModel>(context, listen: false).fetchTopRatedMovies();
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Movie> movies = Provider.of<MovieModel>(context).getMovieList();
     return Scaffold(
       body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return _getMoviesAppBar();
-        },
-        body: FutureBuilder<Response>(
-            future: response,
-            builder: (context, snapshot) {
-              return snapshot.hasData
-                  ? _getMoviesView(snapshot.data.results)
-                  : _getEmptyMoviesView();
-            }),
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return _getMoviesAppBar();
+          },
+          body: movies != null
+              ? _getMoviesView(movies)
+              : _getEmptyMoviesView()
       ),
     );
   }
 
-  //Show sort popup
+//Show sort popup
   void _openSortPopup(BuildContext context) {
-    this._sortPopupIsVisible = true;
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -62,10 +55,8 @@ class _ListPageState extends State<ListPage> {
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).pop();
-                          this._sortPopupIsVisible = false;
-                          setState(() {
-                            response = Remote.fetchTopRatedMovies();
-                          });
+                          Provider.of<MovieModel>(context)
+                              .fetchTopRatedMovies();
                         },
                         child: Card(
                           color: Colors.red,
@@ -82,10 +73,7 @@ class _ListPageState extends State<ListPage> {
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).pop();
-                          this._sortPopupIsVisible = false;
-                          setState(() {
-                            response = Remote.fetchPopularMovies();
-                          });
+                          Provider.of<MovieModel>(context).fetchPopularMovies();
                         },
                         child: Card(
                           color: Colors.red,
@@ -115,11 +103,11 @@ class _ListPageState extends State<ListPage> {
           itemBuilder: (BuildContext context, int index) {
             Movie movie = movies[index];
             return MovieDetailsWidget(
-              id: movie.id,
-              rating: movie.vote_average,
-              title: movie.title,
-              imageUrl: Remote.image_url_small + movie.poster_path,
-            );
+                id: movie.id,
+                rating: movie.vote_average,
+                title: movie.title,
+                imageUrl: Remote.image_url_small + movie.poster_path,
+                isFavorite: false);
           }),
     );
   }
@@ -155,7 +143,7 @@ class _ListPageState extends State<ListPage> {
         ],
         flexibleSpace: FlexibleSpaceBar(
             centerTitle: true,
-            title:  Text("Movies Flutter Application",
+            title: Text("Movies Flutter Application",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.0,
