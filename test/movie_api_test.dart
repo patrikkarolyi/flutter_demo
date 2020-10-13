@@ -54,7 +54,7 @@ void main() {
 
     test("movie has genres field as string", () async {
       final movie = await Remote.fetchMovie(100);
-      expect(movie.genres, isNotNull);
+      expect(movie.genres.toString() is String, true);
 
       print(movie.genres);
     });

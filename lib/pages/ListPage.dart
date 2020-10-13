@@ -57,7 +57,7 @@ class _ListPageState extends State<ListPage> {
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).pop();
-                          Provider.of<MovieModel>(context)
+                          Provider.of<MovieModel>(context,listen: false)
                               .fetchTopRatedMovies();
                         },
                         child: Card(
@@ -75,7 +75,7 @@ class _ListPageState extends State<ListPage> {
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).pop();
-                          Provider.of<MovieModel>(context).fetchPopularMovies();
+                          Provider.of<MovieModel>(context,listen: false).fetchPopularMovies();
                         },
                         child: Card(
                           color: Colors.red,
