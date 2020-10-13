@@ -1,3 +1,5 @@
+import 'Genres.dart';
+
 class Movie {
   final num popularity;
   final num vote_count;
@@ -8,12 +10,12 @@ class Movie {
   final String backdrop_path;
   final String original_language;
   final String original_title;
-  final List<dynamic> genre_ids;
   final String title;
   final num vote_average;
   final String overview;
   final String release_date;
 
+  final Genres genres;
   final num runtime;
 
   Movie({
@@ -26,7 +28,7 @@ class Movie {
     this.backdrop_path,
     this.original_language,
     this.original_title,
-    this.genre_ids,
+    this.genres,
     this.title,
     this.vote_average,
     this.overview,
@@ -45,7 +47,7 @@ class Movie {
       backdrop_path: json['backdrop_path'],
       original_language: json['original_language'],
       original_title: json['original_title'],
-      genre_ids: json['genre_ids'],
+      genres: Genres.fromJson(json),
       title: json['title'],
       vote_average: json['vote_average'],
       overview: json['overview'],
@@ -64,7 +66,7 @@ class Movie {
     print('${this.backdrop_path}');
     print('${this.original_language}');
     print('${this.original_title}');
-    print('${this.genre_ids}');
+    print('${this.genres.toString()}');
     print('${this.title}');
     print('${this.vote_average}');
     print('${this.overview}');

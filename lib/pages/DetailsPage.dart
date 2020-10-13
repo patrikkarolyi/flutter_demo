@@ -82,7 +82,7 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
               SizedBox(height: 10.0),
               Text(
-                "Rating",
+                movie.genres.toString(),
                 style: TextStyle(
                   color: Colors.black54,
                   fontSize: 16.0,
@@ -97,6 +97,25 @@ class _DetailsPageState extends State<DetailsPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Text(
+                        'Language',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      SizedBox(height: 2.0),
+                      Text(
+                        movie.original_language.toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                   Column(
                     children: <Widget>[
                       Text(

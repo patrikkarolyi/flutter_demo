@@ -33,7 +33,7 @@ void main() {
         if (movie.backdrop_path == null) thereIsNullValue = true;
         if (movie.original_language == null) thereIsNullValue = true;
         if (movie.original_title == null) thereIsNullValue = true;
-        if (movie.genre_ids == null) thereIsNullValue = true;
+        if (movie.genres == null) thereIsNullValue = true;
         if (movie.title == null) thereIsNullValue = true;
         if (movie.vote_average == null) thereIsNullValue = true;
         if (movie.overview == null) thereIsNullValue = true;
@@ -50,6 +50,13 @@ void main() {
       expect(movie, isNotNull);
 
       movie.printMovie();
+    });
+
+    test("movie has genres field as string", () async {
+      final movie = await Remote.fetchMovie(100);
+      expect(movie.genres, isNotNull);
+
+      print(movie.genres);
     });
 
   });

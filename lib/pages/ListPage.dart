@@ -23,7 +23,7 @@ class _ListPageState extends State<ListPage> {
   @override
   void initState() {
     super.initState();
-    response = Remote.fetchPopularMovies();
+    response = Remote.fetchTopRatedMovies();
   }
 
   @override
