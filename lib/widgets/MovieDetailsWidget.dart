@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:popular_movies/pages/DetailsPage.dart';
 
 class MovieDetailsWidget extends StatelessWidget {
-
   final num id;
   final String title;
   final num rating;
   final String imageUrl;
 
-  const MovieDetailsWidget({Key key, this.id, this.title, this.rating, this.imageUrl}) : super(key: key);
+  const MovieDetailsWidget(
+      {Key key, this.id, this.title, this.rating, this.imageUrl})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,32 +22,37 @@ class MovieDetailsWidget extends StatelessWidget {
           MaterialPageRoute(builder: (context) => DetailsPage(id: id)),
         );
       },
-      child: Card(
-        margin: EdgeInsets.all(5),
-        elevation: 5,
-        child: Column(
+      child: Container(
+        margin: EdgeInsets.all(4),
+        child: Stack(
           children: [
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.all(10),
-              child: Text(title),
+            CachedNetworkImage(
+              fit: BoxFit.fitWidth,
+              imageUrl: imageUrl,
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
-            Expanded(
-              child: Row(
-                children: [
-                  Icon(Icons.star),
-                  Expanded(child: Text(rating.toString())),
-                  Icon(Icons.arrow_forward_ios),
-                ],
-              ),
-            ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(4.0),
-              child: CachedNetworkImage(
-                imageUrl: imageUrl,
-                placeholder: (context, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                  width: double.infinity,
+                  height: 55,
+                  color: Colors.black,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        '$rating ⭐',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  )),
             )
           ],
         ),

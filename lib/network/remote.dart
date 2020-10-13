@@ -12,7 +12,7 @@ class Remote{
   static const urlDetails = "https://api.themoviedb.org/3/movie/";
   static const language = "&language=en-US";
   static const page = "&page=1";
-  static const image_url_small= "https://image.tmdb.org/t/p/w185/";
+  static const image_url_small= "https://image.tmdb.org/t/p/w342/";
   static const image_url_large= "https://image.tmdb.org/t/p/original/";
 
 

@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.black,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: ListPage(title: 'Flutter Demo Home Page'),
