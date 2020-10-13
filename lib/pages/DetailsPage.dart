@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:popular_movies/models/Movie.dart';
+import 'package:popular_movies/models/data/Movie.dart';
 import 'package:popular_movies/network/remote.dart';
 import 'package:popular_movies/widgets/CircularCliperWidget.dart';
 

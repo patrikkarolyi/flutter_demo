@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:popular_movies/models/Movie.dart';
-import 'package:popular_movies/models/Response.dart';
+import 'package:popular_movies/models/data/Movie.dart';
+import 'package:popular_movies/models/data/Response.dart';
+
 
 class Remote{
 
