@@ -31,48 +31,7 @@ class _ListPageState extends State<ListPage> {
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              expandedHeight: 200.0,
-              floating: false,
-              pinned: true,
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.star),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => FavoritePage()),
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.sort),
-                  onPressed: () {
-                    _openSortPopup(context);
-                  },
-                ),
-              ],
-              flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  title: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Card(
-                      color: Colors.black,
-                      elevation: 5,
-                      child: Text("Movies Flutter Application",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                          )),
-                    ),
-                  ),
-                  background: Image.asset(
-                    "assets/uni.jpg",
-                    fit: BoxFit.cover,
-                  )),
-            ),
-          ];
+          return _getMoviesAppBar();
         },
         body: FutureBuilder<Response>(
             future: response,
@@ -139,27 +98,48 @@ class _ListPageState extends State<ListPage> {
     );
   }
 
-  AppBar _getMoviesAppBar() {
-    return AppBar(
-      title: Text("Hello movies!"),
-      backgroundColor: Colors.red,
-      actions: [
-        IconButton(
-          icon: Icon(Icons.star),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => FavoritePage()),
-            );
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.sort),
-          onPressed: () {
-            _openSortPopup(context);
-          },
-        ),
-      ],
-    );
+  List<Widget> _getMoviesAppBar() {
+    return [
+      SliverAppBar(
+        expandedHeight: 200.0,
+        floating: false,
+        pinned: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.star),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FavoritePage()),
+              );
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.sort),
+            onPressed: () {
+              _openSortPopup(context);
+            },
+          ),
+        ],
+        flexibleSpace: FlexibleSpaceBar(
+            centerTitle: true,
+            title: Align(
+              alignment: Alignment.bottomCenter,
+              child: Card(
+                color: Colors.black,
+                elevation: 5,
+                child: Text("Movies Flutter Application",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    )),
+              ),
+            ),
+            background: Image.asset(
+              "assets/uni.jpg",
+              fit: BoxFit.cover,
+            )),
+      ),
+    ];
   }
 }
