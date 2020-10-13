@@ -47,25 +47,57 @@ class _ListPageState extends State<ListPage> {
   //Show sort popup
   void _openSortPopup(BuildContext context) {
     this._sortPopupIsVisible = true;
-    Widget okButton = FlatButton(
-      child: Text("OK"),
-      onPressed: () {
-        Navigator.of(context).pop();
-        setState(() {
-          this._sortPopupIsVisible = false;
-        });
-      },
-    );
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Hello!"),
-            content: Text("Please sort your content!"),
-            actions: [
-              okButton,
-            ],
-            elevation: 5,
+          return Dialog(
+            backgroundColor: Colors.black45,
+            child: Container(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(50),
+                      height: 50,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          this._sortPopupIsVisible = false;
+                          setState(() {
+                            response = Remote.fetchTopRatedMovies();
+                          });
+                        },
+                        child: Card(
+                          color: Colors.red,
+                          child: Center(
+                            child: Text("Sort my content by rating!",
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(50),
+                      height: 50,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          this._sortPopupIsVisible = false;
+                          setState(() {
+                            response = Remote.fetchPopularMovies();
+                          });
+                        },
+                        child: Card(
+                          color: Colors.red,
+                          child: Center(
+                            child: Text("Sort my content by popularity!",
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]),
+            ),
           );
         });
   }
@@ -101,7 +133,7 @@ class _ListPageState extends State<ListPage> {
   List<Widget> _getMoviesAppBar() {
     return [
       SliverAppBar(
-        expandedHeight: 200.0,
+        expandedHeight: 500.0,
         floating: false,
         pinned: true,
         actions: [
@@ -123,18 +155,11 @@ class _ListPageState extends State<ListPage> {
         ],
         flexibleSpace: FlexibleSpaceBar(
             centerTitle: true,
-            title: Align(
-              alignment: Alignment.bottomCenter,
-              child: Card(
-                color: Colors.black,
-                elevation: 5,
-                child: Text("Movies Flutter Application",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                    )),
-              ),
-            ),
+            title:  Text("Movies Flutter Application",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
+                )),
             background: Image.asset(
               "assets/uni.jpg",
               fit: BoxFit.cover,
