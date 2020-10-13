@@ -5,7 +5,7 @@ import 'data/Movie.dart';
 
 class FavesModel extends ChangeNotifier {
   final MovieModel _movies;
-  final List<int> _movieIds;
+  final List<num> _movieIds;
 
   FavesModel(this._movies, FavesModel previous)
       : assert(_movies != null),
@@ -14,6 +14,10 @@ class FavesModel extends ChangeNotifier {
   List<Movie> get movies => _movieIds.map((id) => _movies.getById(id)).toList();
 
   Movie getByPosition(int position) => movies[position];
+
+  List<num> getMovieIds(){
+    return _movieIds;
+  }
 
   void add(num id){
     _movieIds.add(id);

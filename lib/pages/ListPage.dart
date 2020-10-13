@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:popular_movies/models/FavsModel.dart';
 import 'package:popular_movies/models/MovieModel.dart';
 import 'package:popular_movies/models/data/Movie.dart';
 import 'package:popular_movies/network/remote.dart';
@@ -26,14 +27,15 @@ class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     List<Movie> movies = Provider.of<MovieModel>(context).getMovieList();
+    List<num> favorites = Provider.of<FavesModel>(context).getMovieIds();
     return Scaffold(
       body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return _getMoviesAppBar();
           },
           body: movies != null
-              ? _getMoviesView(movies)
-              : _getEmptyMoviesView()
+              ? _getContentView(movies,favorites)
+              : _getEmptyView()
       ),
     );
   }
@@ -90,7 +92,7 @@ class _ListPageState extends State<ListPage> {
         });
   }
 
-  Widget _getMoviesView(List<Movie> movies) {
+  Widget _getContentView(List<Movie> movies, List<num> favorites) {
     return Container(
       color: Colors.black,
       child: GridView.builder(
@@ -107,12 +109,12 @@ class _ListPageState extends State<ListPage> {
                 rating: movie.vote_average,
                 title: movie.title,
                 imageUrl: Remote.image_url_small + movie.poster_path,
-                isFavorite: false);
+                isFavorite: favorites.contains(movie.id));
           }),
     );
   }
 
-  Center _getEmptyMoviesView() {
+  Center _getEmptyView() {
     return Center(
       child: Text("No content."),
     );

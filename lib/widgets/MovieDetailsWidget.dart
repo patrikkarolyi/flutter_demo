@@ -8,9 +8,15 @@ class MovieDetailsWidget extends StatelessWidget {
   final String title;
   final num rating;
   final String imageUrl;
+  final bool isFavorite;
 
   const MovieDetailsWidget(
-      {Key key, this.id, this.title, this.rating, this.imageUrl})
+      {Key key,
+      this.id,
+      this.title,
+      this.rating,
+      this.imageUrl,
+      this.isFavorite})
       : super(key: key);
 
   @override
@@ -53,6 +59,15 @@ class MovieDetailsWidget extends StatelessWidget {
                       ),
                     ],
                   )),
+            ),
+            if(isFavorite)
+            Align(
+              alignment: Alignment.topRight,
+              child: Icon(
+                Icons.favorite,
+                color: Colors.pink,
+                size: 20,
+              ),
             )
           ],
         ),

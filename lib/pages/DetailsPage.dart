@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:popular_movies/models/FavsModel.dart';
 import 'package:popular_movies/models/data/Movie.dart';
 import 'package:popular_movies/network/remote.dart';
 import 'package:popular_movies/widgets/CircularCliperWidget.dart';
+import 'package:provider/provider.dart';
 
 class DetailsPage extends StatefulWidget {
   final int id;
@@ -37,7 +39,14 @@ class _DetailsPageState extends State<DetailsPage> {
                   ? _getContentView(snapshot)
                   : _getLoadingView();
             }),
-        _getTopSection(),
+        Align(
+          alignment: Alignment.lerp(Alignment.topLeft, Alignment.centerLeft, 0.2),
+          child: _getBackButtonWidget(),
+        ),
+        Align(
+          alignment: Alignment.lerp(Alignment.topRight, Alignment.centerRight, 0.2),
+          child: _getFavoriteWidget(id),
+        )
       ]),
     );
   }
@@ -52,18 +61,18 @@ class _DetailsPageState extends State<DetailsPage> {
           children: <Widget>[
             Container(
               transform: Matrix4.translationValues(0.0, -50.0, 0.0),
-                child: ClipShadowPath(
-                  clipper: CircularClipper(),
-                  shadow: Shadow(blurRadius: 20.0),
-                  child: CachedNetworkImage(
-                    imageUrl: Remote.image_url_large + movie.backdrop_path,
-                    height: 400.0,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
+              child: ClipShadowPath(
+                clipper: CircularClipper(),
+                shadow: Shadow(blurRadius: 20.0),
+                child: CachedNetworkImage(
+                  imageUrl: Remote.image_url_large + movie.backdrop_path,
+                  height: 400.0,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
+              ),
             ),
           ],
         ),
@@ -158,10 +167,10 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
               SizedBox(height: 25.0),
               Container(
-                  child: Text(
-                    movie.overview,
-                    style: TextStyle(
-                      color: Colors.black54,
+                child: Text(
+                  movie.overview,
+                  style: TextStyle(
+                    color: Colors.black54,
                   ),
                 ),
               ),
@@ -178,19 +187,33 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
-  Widget _getTopSection() {
-    return Padding(
-      padding: EdgeInsets.only(top: 50),
-      child: IconButton(
-        icon: Icon(
-          Icons.arrow_back,
-          color: Colors.white,
-          size: 50,
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
+  Widget _getBackButtonWidget() {
+    return IconButton(
+      icon: Icon(
+        Icons.arrow_back,
+        color: Colors.white,
+        size: 50,
       ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+  }
+
+  Widget _getFavoriteWidget(num id) {
+    FavesModel faves = Provider.of<FavesModel>(context);
+    List<num> movieIds = faves.getMovieIds();
+    bool isFavorite = movieIds.contains(id);
+    IconData favoriteIcon = isFavorite ? Icons.favorite : Icons.favorite_border;
+    return Padding(
+      padding: EdgeInsets.only(right: 20),
+      child: IconButton(
+          icon: Icon(
+            favoriteIcon,
+            color: Colors.pink,
+            size: 50,
+          ),
+          onPressed: isFavorite ? () => faves.remove(id) : () => faves.add(id)),
     );
   }
 }
