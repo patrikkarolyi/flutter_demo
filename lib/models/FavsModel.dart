@@ -10,6 +10,7 @@ class FavesModel extends ChangeNotifier {
   FavesModel(this._movies, FavesModel previous)
       : assert(_movies != null),
         _movieIds = previous?._movieIds ?? [];
+  //TODO get datafrom db
 
   List<Movie> get movies => _movieIds.map((id) => _movies.getById(id)).toList();
 
@@ -22,11 +23,13 @@ class FavesModel extends ChangeNotifier {
   void add(num id){
     _movieIds.add(id);
     notifyListeners();
+    //TODO save to db
   }
 
   void remove (num id){
     _movieIds.remove(id);
     notifyListeners();
+    //TODO remove from db
   }
 
   int get length => _movieIds.length;
