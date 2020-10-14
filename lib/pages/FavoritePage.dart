@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:popular_movies/models/FavsModel.dart';
-import 'package:popular_movies/models/MovieModel.dart';
 import 'package:popular_movies/models/data/Movie.dart';
 import 'package:popular_movies/network/remote.dart';
 import 'package:popular_movies/widgets/MovieDetailsWidget.dart';
@@ -14,8 +13,7 @@ class FavoritePage extends StatefulWidget {
 class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
-    MovieModel movieModel = Provider.of<MovieModel>(context);
-    List<num> favorites = Provider.of<FavesModel>(context).getMovieIds();
+    List<Movie> favorites = Provider.of<FavesModel>(context).getMovies();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -25,13 +23,13 @@ class _FavoritePageState extends State<FavoritePage> {
           icon: Icon(Icons.arrow_back),
         ),
       ),
-        body: movieModel != null && movieModel.length>0
-            ? _getContentView(movieModel,favorites)
+        body: favorites != null && favorites.length>0
+            ? _getContentView(favorites)
             : _getEmptyView()
     );
   }
 
-  Widget _getContentView(MovieModel movieModel, List<num> favorites) {
+  Widget _getContentView(List<Movie> favorites) {
     return Container(
       color: Colors.black,
       child: GridView.builder(
@@ -42,13 +40,13 @@ class _FavoritePageState extends State<FavoritePage> {
             childAspectRatio: 0.6,
           ),
           itemBuilder: (BuildContext context, int index) {
-            Movie movie = movieModel.getById(favorites[index]);
+            Movie movie = favorites[index];
             return MovieDetailsWidget(
                 id: movie.id,
                 rating: movie.vote_average,
                 title: movie.title,
                 imageUrl: Remote.image_url_small + movie.poster_path,
-                isFavorite: favorites.contains(movie.id));
+                isFavorite: true);
           }),
     );
   }

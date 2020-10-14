@@ -202,7 +202,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
   Widget _getFavoriteWidget(num id) {
     FavesModel faves = Provider.of<FavesModel>(context);
-    List<num> movieIds = faves.getMovieIds();
+    List<num> movieIds = faves.getMovies().map((e) => e.id).toList();
     bool isFavorite = movieIds.contains(id);
     IconData favoriteIcon = isFavorite ? Icons.favorite : Icons.favorite_border;
     return Padding(

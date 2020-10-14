@@ -72,4 +72,23 @@ class Movie {
     print('${this.overview}');
     print('${this.release_date}');
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'popularity': popularity,
+      'vote_count': vote_count,
+      'is_video': isVideo,
+      'poster_path': poster_path,
+      'is_adult': isAdult,
+      'backdrop_path': backdrop_path,
+      'original_language': original_language,
+      'original_title': original_title,
+      'title': title,
+      'vote_average': vote_average,
+      'overview': overview,
+      'release_date': release_date,
+      'runtime': runtime,
+    };
+  }
 }

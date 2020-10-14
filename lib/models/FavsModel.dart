@@ -2,35 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:popular_movies/models/MovieModel.dart';
 
 import 'data/Movie.dart';
+import 'db/MovieDao.dart';
 
 class FavesModel extends ChangeNotifier {
-  final MovieModel _movies;
-  final List<num> _movieIds;
+  final MovieModel _movieModel;
+  final List<Movie> _movies;
 
-  FavesModel(this._movies, FavesModel previous)
-      : assert(_movies != null),
-        _movieIds = previous?._movieIds ?? [];
-  //TODO get datafrom db
+  FavesModel(this._movieModel, FavesModel previous)
+      : assert(_movieModel != null),
+        _movies = previous?._movies ?? [];
 
-  List<Movie> get movies => _movieIds.map((id) => _movies.getById(id)).toList();
-
-  Movie getByPosition(int position) => movies[position];
-
-  List<num> getMovieIds(){
-    return _movieIds;
-  }
-
-  void add(num id){
-    _movieIds.add(id);
+  void getFavoriteMoviesFromDb() async {
+    final oldElements = await getDbMovies();
+    _movies.addAll(oldElements);
     notifyListeners();
-    //TODO save to db
   }
 
-  void remove (num id){
-    _movieIds.remove(id);
+  List<Movie> getMovies() {
+    return _movies;
+  }
+
+  void add(num id) {
+    final Movie movie = _movieModel.getById(id);
+    _movies.add(movie);
     notifyListeners();
-    //TODO remove from db
+    insertDbMovie(movie);
   }
 
-  int get length => _movieIds.length;
+  void remove(num id) {
+    final Movie movie = _movieModel.getById(id);
+    _movies.remove(movie);
+    notifyListeners();
+    deleteDbMovie(id);
+  }
+
+  int get length => _movies.length;
 }

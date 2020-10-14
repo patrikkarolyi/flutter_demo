@@ -9,9 +9,7 @@ import 'package:provider/provider.dart';
 import 'FavoritePage.dart';
 
 class ListPage extends StatefulWidget {
-  ListPage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  ListPage({Key key}) : super(key: key);
 
   @override
   _ListPageState createState() => _ListPageState();
@@ -22,12 +20,13 @@ class _ListPageState extends State<ListPage> {
   void initState() {
     super.initState();
     Provider.of<MovieModel>(context, listen: false).fetchTopRatedMovies();
+    Provider.of<FavesModel>(context, listen: false).getFavoriteMoviesFromDb();
   }
 
   @override
   Widget build(BuildContext context) {
     List<Movie> movies = Provider.of<MovieModel>(context).getMovieList();
-    List<num> favorites = Provider.of<FavesModel>(context).getMovieIds();
+    List<Movie> favorites = Provider.of<FavesModel>(context).getMovies();
     return Scaffold(
       body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -92,7 +91,7 @@ class _ListPageState extends State<ListPage> {
         });
   }
 
-  Widget _getContentView(List<Movie> movies, List<num> favorites) {
+  Widget _getContentView(List<Movie> movies, List<Movie> favorites) {
     return Container(
       color: Colors.black,
       child: GridView.builder(
@@ -109,7 +108,7 @@ class _ListPageState extends State<ListPage> {
                 rating: movie.vote_average,
                 title: movie.title,
                 imageUrl: Remote.image_url_small + movie.poster_path,
-                isFavorite: favorites.contains(movie.id));
+                isFavorite: favorites.map((e) => e.id).toList().contains(movie.id));
           }),
     );
   }
