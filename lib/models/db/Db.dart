@@ -7,7 +7,7 @@ class Db {
 
   static Future<Database> getDb() => _database;
 
-  static void initDb() async {
+  static Future<void> initDb() async {
     WidgetsFlutterBinding.ensureInitialized();
 
     _database = openDatabase(

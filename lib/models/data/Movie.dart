@@ -1,3 +1,5 @@
+import 'package:popular_movies/models/utils/Utils.dart';
+
 import 'Genres.dart';
 
 class Movie {
@@ -78,7 +80,7 @@ class Movie {
       'id': id,
       'popularity': popularity,
       'vote_count': vote_count,
-      'is_video': isVideo,
+      'is_video': boolToInt(isVideo),
       'poster_path': poster_path,
       'is_adult': isAdult,
       'backdrop_path': backdrop_path,

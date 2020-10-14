@@ -5,12 +5,10 @@ import 'package:popular_movies/models/MovieModel.dart';
 import 'package:provider/provider.dart';
 
 import 'models/FavsModel.dart';
-import 'models/db/Db.dart';
-import 'pages/ListPage.dart';
+import 'pages/SplashPage.dart';
 
 void main() async {
   runApp(MyApp());
-  Db.initDb();
 }
 
 class MyApp extends StatelessWidget {
@@ -36,7 +34,7 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.black,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          home: ListPage(),
+          home: SplashPage(),
         ));
   }
 }
