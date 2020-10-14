@@ -21,14 +21,10 @@ class MovieModel extends ChangeNotifier {
   Future fetchTopRatedMovies() async {
     await Remote.fetchTopRatedMovies().then((value) => _movies = value.results);
     notifyListeners();
-    //merge+Sort
-    //TODO save to db
   }
 
   Future fetchPopularMovies() async {
     await Remote.fetchPopularMovies().then((value) => _movies = value.results);
     notifyListeners();
-    //merge+Sort
-    //TODO remove from db
   }
 }

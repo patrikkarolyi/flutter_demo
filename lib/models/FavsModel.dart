@@ -30,7 +30,7 @@ class FavesModel extends ChangeNotifier {
   }
 
   void remove(num id) {
-    final Movie movie = _movieModel.getById(id);
+    final Movie movie = _movies.firstWhere((e) => e.id == id);
     _movies.remove(movie);
     notifyListeners();
     deleteDbMovie(id);
