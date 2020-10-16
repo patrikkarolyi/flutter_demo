@@ -15,21 +15,27 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     List<Movie> favorites = Provider.of<FavesModel>(context).getMovies();
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back),
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
         ),
-      ),
-        body: favorites != null && favorites.length>0
-            ? _getContentView(favorites)
-            : _getEmptyView()
-    );
+        body: favorites != null && favorites.length > 0
+            ? _ContentView(favorites: favorites)
+            : _EmptyView());
   }
+}
 
-  Widget _getContentView(List<Movie> favorites) {
+class _ContentView extends StatelessWidget {
+  final List<Movie> favorites;
+
+  const _ContentView({Key key, this.favorites}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
       child: GridView.builder(
@@ -50,8 +56,11 @@ class _FavoritePageState extends State<FavoritePage> {
           }),
     );
   }
+}
 
-  Widget _getEmptyView() {
+class _EmptyView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Center(
       child: Text("No content."),
     );
