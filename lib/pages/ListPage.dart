@@ -9,8 +9,6 @@ import 'package:provider/provider.dart';
 import 'FavoritePage.dart';
 
 class ListPage extends StatefulWidget {
-  ListPage({Key key}) : super(key: key);
-
   @override
   _ListPageState createState() => _ListPageState();
 }
@@ -27,19 +25,97 @@ class _ListPageState extends State<ListPage> {
   Widget build(BuildContext context) {
     List<Movie> movies = Provider.of<MovieModel>(context).getMovieList();
     List<Movie> favorites = Provider.of<FavesModel>(context).getMovies();
+
     return Scaffold(
       body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return _getMoviesAppBar();
+            return [_MoviesAppBar()];
           },
           body: movies != null
-              ? _getContentView(movies,favorites)
-              : _getEmptyView()
-      ),
+              ? _ContentView(movies: movies, favorites: favorites)
+              : _EmptyView()),
+    );
+  }
+}
+
+class _ContentView extends StatelessWidget {
+  final List<Movie> movies;
+  final List<Movie> favorites;
+
+  const _ContentView({Key key, this.movies, this.favorites}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: Colors.black,
+        child: GridView.builder(
+            itemCount: movies.length,
+            physics: BouncingScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.6,
+            ),
+            itemBuilder: (BuildContext context, int index) {
+              Movie movie = movies[index];
+              return MovieDetailsWidget(
+                  id: movie.id,
+                  rating: movie.vote_average,
+                  title: movie.title,
+                  imageUrl: Remote.image_url_small + movie.poster_path,
+                  isFavorite:
+                      favorites.map((e) => e.id).toList().contains(movie.id));
+            }));
+  }
+}
+
+class _EmptyView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("No content."),
+    );
+  }
+}
+
+class _MoviesAppBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      expandedHeight: 500.0,
+      floating: false,
+      pinned: true,
+      actions: [
+        IconButton(
+          icon: Icon(Icons.star),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FavoritePage()),
+            );
+          },
+        ),
+        IconButton(
+          icon: Icon(Icons.sort),
+          onPressed: () {
+            _openSortPopup(context);
+          },
+        ),
+      ],
+      flexibleSpace: FlexibleSpaceBar(
+          centerTitle: true,
+          title: Text("Movies Flutter Application",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+              )),
+          background: Image.asset(
+            "assets/uni.jpg",
+            fit: BoxFit.cover,
+          )),
     );
   }
 
-//Show sort popup
+  //Show sort popup
   void _openSortPopup(BuildContext context) {
     showDialog(
         context: context,
@@ -56,7 +132,7 @@ class _ListPageState extends State<ListPage> {
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).pop();
-                          Provider.of<MovieModel>(context,listen: false)
+                          Provider.of<MovieModel>(context, listen: false)
                               .fetchTopRatedMovies();
                         },
                         child: Card(
@@ -74,7 +150,8 @@ class _ListPageState extends State<ListPage> {
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).pop();
-                          Provider.of<MovieModel>(context,listen: false).fetchPopularMovies();
+                          Provider.of<MovieModel>(context, listen: false)
+                              .fetchPopularMovies();
                         },
                         child: Card(
                           color: Colors.red,
@@ -89,71 +166,5 @@ class _ListPageState extends State<ListPage> {
             ),
           );
         });
-  }
-
-  Widget _getContentView(List<Movie> movies, List<Movie> favorites) {
-    return Container(
-      color: Colors.black,
-      child: GridView.builder(
-          itemCount: movies.length,
-          physics: BouncingScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.6,
-          ),
-          itemBuilder: (BuildContext context, int index) {
-            Movie movie = movies[index];
-            return MovieDetailsWidget(
-                id: movie.id,
-                rating: movie.vote_average,
-                title: movie.title,
-                imageUrl: Remote.image_url_small + movie.poster_path,
-                isFavorite: favorites.map((e) => e.id).toList().contains(movie.id));
-          }),
-    );
-  }
-
-  Center _getEmptyView() {
-    return Center(
-      child: Text("No content."),
-    );
-  }
-
-  List<Widget> _getMoviesAppBar() {
-    return [
-      SliverAppBar(
-        expandedHeight: 500.0,
-        floating: false,
-        pinned: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.star),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => FavoritePage()),
-              );
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.sort),
-            onPressed: () {
-              _openSortPopup(context);
-            },
-          ),
-        ],
-        flexibleSpace: FlexibleSpaceBar(
-            centerTitle: true,
-            title: Text("Movies Flutter Application",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                )),
-            background: Image.asset(
-              "assets/uni.jpg",
-              fit: BoxFit.cover,
-            )),
-      ),
-    ];
   }
 }
