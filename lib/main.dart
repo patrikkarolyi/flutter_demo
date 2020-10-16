@@ -12,7 +12,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
                   FavesModel(movies, previousFaves)),
         ],
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Movie Flutter Application',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primaryColor: Colors.black,
