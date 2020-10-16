@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:popular_movies/models/FavsModel.dart';
 import 'package:popular_movies/models/data/Movie.dart';
 import 'package:popular_movies/network/remote.dart';
@@ -36,23 +37,32 @@ class _DetailsPageState extends State<DetailsPage> {
             future: movie,
             builder: (context, snapshot) {
               return snapshot.hasData
-                  ? _getContentView(snapshot)
-                  : _getLoadingView();
+                  ? _ContentView(snapshot: snapshot)
+                  : _LoadingView();
             }),
         Align(
-          alignment: Alignment.lerp(Alignment.topLeft, Alignment.centerLeft, 0.2),
-          child: _getBackButtonWidget(),
+          alignment: Alignment.lerp(
+              Alignment.topLeft, Alignment.centerLeft, 0.2),
+          child: _BackButtonWidget(),
         ),
         Align(
-          alignment: Alignment.lerp(Alignment.topRight, Alignment.centerRight, 0.2),
-          child: _getFavoriteWidget(id),
+          alignment: Alignment.lerp(
+              Alignment.topRight, Alignment.centerRight, 0.2),
+          child: _FavoriteWidget(id: id),
         )
       ]),
     );
   }
+}
 
-  ListView _getContentView(AsyncSnapshot<Movie> snapshot) {
-    Movie movie = snapshot.data;
+class _ContentView extends StatelessWidget {
+  final AsyncSnapshot<Movie> snapshot;
+
+  const _ContentView({Key key, this.snapshot}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Movie movie = snapshot.data;
 
     return ListView(
       physics: BouncingScrollPhysics(),
@@ -180,14 +190,20 @@ class _DetailsPageState extends State<DetailsPage> {
       ],
     );
   }
+}
 
-  Widget _getLoadingView() {
+class _LoadingView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Center(
       child: Text("Loading..."),
     );
   }
+}
 
-  Widget _getBackButtonWidget() {
+class _BackButtonWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return IconButton(
       icon: Icon(
         Icons.arrow_back,
@@ -199,11 +215,17 @@ class _DetailsPageState extends State<DetailsPage> {
       },
     );
   }
+}
 
-  Widget _getFavoriteWidget(num id) {
+class _FavoriteWidget extends StatelessWidget {
+  final num id;
+
+  const _FavoriteWidget({Key key, this.id}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     FavesModel faves = Provider.of<FavesModel>(context);
-    List<num> movieIds = faves.getMovies().map((e) => e.id).toList();
-    bool isFavorite = movieIds.contains(id);
+    bool isFavorite = faves.getMovies().map((e) => e.id).toList().contains(id);
     IconData favoriteIcon = isFavorite ? Icons.favorite : Icons.favorite_border;
     return Padding(
       padding: EdgeInsets.only(right: 20),
