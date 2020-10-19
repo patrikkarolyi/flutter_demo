@@ -1,4 +1,4 @@
-import 'package:popular_movies/models/utils/Utils.dart';
+import 'package:popular_movies/models/utils/utils.dart';
 
 import 'genres.dart';
 

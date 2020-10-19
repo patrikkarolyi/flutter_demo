@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:popular_movies/models/db/movie_disk_data_source.dart';
 import 'package:popular_movies/models/movie_model.dart';
 
 import 'data/movie.dart';
-import 'db/movie_dao.dart';
 
 class FavesModel extends ChangeNotifier {
   final MovieModel _movieModel;
@@ -13,7 +14,7 @@ class FavesModel extends ChangeNotifier {
         _movies = previous?._movies ?? [];
 
   void getFavoriteMoviesFromDb() async {
-    final oldElements = await getDbMovies();
+    final oldElements = await _diskDataSource.getDbMovies();
     _movies.addAll(oldElements);
     notifyListeners();
   }
@@ -26,14 +27,14 @@ class FavesModel extends ChangeNotifier {
     final Movie movie = _movieModel.getById(id);
     _movies.add(movie);
     notifyListeners();
-    insertDbMovie(movie);
+    _diskDataSource.insertDbMovie(movie);
   }
 
   void remove(num id) {
     final Movie movie = _movies.firstWhere((e) => e.id == id);
     _movies.remove(movie);
     notifyListeners();
-    deleteDbMovie(id);
+    _diskDataSource.deleteDbMovie(id);
   }
 
   int get length => _movies.length;
