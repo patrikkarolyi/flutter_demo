@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:popular_movies/network/remote.dart';
 
-import 'data/Movie.dart';
+import 'data/movie.dart';
 
 class MovieModel extends ChangeNotifier {
   List<Movie> _movies = List<Movie>();

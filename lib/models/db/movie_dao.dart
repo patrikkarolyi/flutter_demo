@@ -1,8 +1,8 @@
-import 'package:popular_movies/models/data/Movie.dart';
+import 'package:popular_movies/models/data/movie.dart';
 import 'package:popular_movies/models/utils/Utils.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'Db.dart';
+import 'db.dart';
 
 Future<void> insertDbMovie(Movie movie) async {
   final Database db = await  Db.getDb();

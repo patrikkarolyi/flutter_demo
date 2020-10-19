@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:popular_movies/models/FavsModel.dart';
-import 'package:popular_movies/models/data/Movie.dart';
+import 'package:popular_movies/models/data/movie.dart';
+import 'package:popular_movies/models/favs_model.dart';
 import 'package:popular_movies/network/remote.dart';
-import 'package:popular_movies/widgets/CircularCliperWidget.dart';
+import 'package:popular_movies/widgets/circular_cliper_widget.dart';
 import 'package:provider/provider.dart';
 
 class DetailsPage extends StatefulWidget {

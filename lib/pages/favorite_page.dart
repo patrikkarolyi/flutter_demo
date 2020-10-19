@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:popular_movies/models/FavsModel.dart';
-import 'package:popular_movies/models/data/Movie.dart';
+import 'package:popular_movies/models/data/movie.dart';
+import 'package:popular_movies/models/favs_model.dart';
 import 'package:popular_movies/network/remote.dart';
-import 'package:popular_movies/widgets/MovieDetailsWidget.dart';
+import 'package:popular_movies/widgets/movie_details_widget.dart';
 import 'package:provider/provider.dart';
 
 class FavoritePage extends StatefulWidget {

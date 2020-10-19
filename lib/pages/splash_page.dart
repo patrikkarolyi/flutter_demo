@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:popular_movies/models/db/Db.dart';
-import 'package:popular_movies/pages/ListPage.dart';
+import 'package:popular_movies/models/db/db.dart';
+import 'package:popular_movies/pages/list_page.dart';
 
 class SplashPage extends StatefulWidget {
   @override

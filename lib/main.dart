@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:popular_movies/models/MovieModel.dart';
+import 'package:popular_movies/models/movie_model.dart';
 import 'package:provider/provider.dart';
 
-import 'models/FavsModel.dart';
-import 'pages/SplashPage.dart';
+import 'models/favs_model.dart';
+import 'pages/splash_page.dart';
 
 void main() async {
   runApp(MyApp());

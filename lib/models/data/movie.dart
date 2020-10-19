@@ -1,6 +1,6 @@
 import 'package:popular_movies/models/utils/Utils.dart';
 
-import 'Genres.dart';
+import 'genres.dart';
 
 class Movie {
   final num popularity;

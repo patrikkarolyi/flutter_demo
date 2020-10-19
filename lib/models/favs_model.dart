@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:popular_movies/models/MovieModel.dart';
+import 'package:popular_movies/models/movie_model.dart';
 
-import 'data/Movie.dart';
-import 'db/MovieDao.dart';
+import 'data/movie.dart';
+import 'db/movie_dao.dart';
 
 class FavesModel extends ChangeNotifier {
   final MovieModel _movieModel;
