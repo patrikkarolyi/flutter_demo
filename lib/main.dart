@@ -4,10 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:popular_movies/models/movie_model.dart';
 import 'package:provider/provider.dart';
 
+import 'di/service.dart';
 import 'models/favs_model.dart';
 import 'pages/splash_page.dart';
 
-void main() async {
+void main() {
+  setupLocator();
   runApp(MyApp());
 }
 

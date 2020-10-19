@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:popular_movies/models/db/db.dart';
 import 'package:popular_movies/pages/list_page.dart';
 
@@ -23,9 +24,15 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 
+
+
   @override
   void initState() {
-    Db.initDb().whenComplete(() {
+    super.initState();
+    final injector = GetIt.instance;
+    final Db db = injector();
+
+    db.initDb().whenComplete(() {
       Navigator.pop(context);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ListPage()));
